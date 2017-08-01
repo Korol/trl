@@ -280,7 +280,8 @@ body.loading .modal {
 }
 
 .nav-right-logo {
-    width: 200px;
+    /*width: 200px;*/
+    width: 190px;
     height: auto;
     display: block;
     padding: 0;
@@ -307,7 +308,8 @@ body.loading .modal {
 
 .navigation-wrap {
     display: inline-block;
-    width: 80%;
+    /*width: 80%;*/
+    width: 85%;
 }
 
 .nav-headline .navbar-nav > .open > a,

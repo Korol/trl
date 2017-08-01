@@ -37,6 +37,12 @@ AppAsset::register($this);
 
 
     $menuItems = [
+        ['label' => 'Trello',
+            'items' => [
+                    ['label' => 'Catalogs', 'url' => ['/catalog']],
+                    ['label' => 'Catalog Items', 'url' => ['/catalog-item']],
+            ],
+        ],
         ['label' => 'Google Forms', 'url' => ['/googleforms']],
         ['label' => 'PhotoMarkup Gallery List', 'url' => ['/galleries-photomarkup']],
 //        ['label' => 'Form', 'url' => ['/site/googleforms']],

@@ -158,6 +158,15 @@ AppAsset::register($this);
                             </ul>
                         </li>
                         <li><a href="/site/client"><?=Yii::t('common', 'Select Client')?></a></li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" href="/catalog#" data-toggle="dropdown"><?=Yii::t('common', 'Trello')?>
+                                <b class="caret"></b>
+                            </a>
+                            <ul id="w3" class="dropdown-menu">
+                                <li><a href="/catalog" tabindex="-1"><?=Yii::t('common', 'Catalog')?></a></li>
+                                <li><a href="/order" tabindex="-1"><?=Yii::t('common', 'Order')?></a></li>
+                            </ul>
+                        </li>
 
                         <!--                        <li>-->
 <!--                            <form action="/site/logout" method="post">-->
