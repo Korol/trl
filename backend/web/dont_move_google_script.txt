@@ -1,0 +1,34 @@
+function myFunction() {
+
+
+// Source https://developers.google.com/apps-script/reference/forms/form-response
+// Open a form by ID and log the responses to each question.
+
+var form = FormApp.openById('1pQQOz_WfD0axRv11YwR3Tziv8M_y2BmdE6fWCe230Po');
+var message = '';
+var formResponses = form.getResponses();
+var formResponse = formResponses[formResponses.length-1]; //latest response only
+
+//for (var i = 0; i < formResponses.length; i++) {
+//var formResponse = formResponses[i];
+var itemResponses = formResponse.getItemResponses();
+  for (var j = 0; j < itemResponses.length; j++) {
+var itemResponse = itemResponses[j];
+message +='##'+itemResponse.getItem().getTitle()+'%%'+ itemResponse.getResponse();
+  }
+//}
+//var message2 = Utilities.newBlob(message).getDataAsString('Windows-1255');
+
+var rows =
+{
+'message' : message
+};
+
+var options =
+{
+'method' : 'post',
+'payload' : rows
+};
+//UrlFetchApp.fetch('http://212.199.66.203/googleForms/index.php', options);
+  UrlFetchApp.fetch('http://lavi.new-dating.com/mfiles/googleform', options);
+}

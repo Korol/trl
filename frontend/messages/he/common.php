@@ -1,0 +1,48 @@
+<?php
+/**
+ * ФРОНТЕНД
+ */
+
+return [
+
+    'Powered by' => 'חברות לבה',
+    'Lavi Company' => 'חברות לבה',
+    'Chair' => 'חברות לבה',
+    'Backend' => 'חברות לבה',
+    'Login' => 'חברות לבה',
+    'Password' => 'חברות לבה',
+    'Logout' => 'חברות לבה',
+    'Client Select' => 'זיהוי לקוח',
+    'Search by ID Client' => 'מספר לקוח',
+    'Search' => 'שם לקוח',
+    'Dropdown list' => 'רשימה נפתחת',
+    'Client Not found' => 'הלקוח לא נמצא',
+    'The list of clients in real time is taken from this page' => 'חברות לבה',
+    'Form' => 'חברות לבה',
+    'ID client' => 'חברות לבה',
+    'Date and signature' => 'חתימה',
+    'Marker' => 'למחק',
+    'Eraser' => 'לסמן',
+    'Result will be stored here in' => 'שמירה',
+    'Save and upload result' => 'לשמור  תוצאה',
+    'Shoot Photo' => 'חברות לבה',
+    'Info! CHROME browser not supported for Photo by Webcam without HTTPS/SSL. Pls use Firefox browser for this page.' => 'חברות לבה',
+    'Your captured image will appear here...' => 'חברות לבה',
+    'Take Snapshot' => 'חברות לבה',
+    'List of marking photo' => 'חברות לבה',
+    'Save to M-files' => 'חברות לבה',
+    'Comments' => 'חברות לבה',
+    'Edit' => 'חברות לבה',
+    'View' => 'חברות לבה',
+    'NOTE' => 'חברות לבה',
+    'ID' => 'חברות לבה',
+    'Altar' => 'מערכת ישיבה',
+    'Cabinets' => 'סדרות',
+    'Furniture' => 'ריהוט קודש מעוצב',
+    'Marking photo' => 'סינון והערות לתמונות והדמיות',
+    'Shoot photo' => 'צילום תמונות',
+    'Forms' => 'שאלונים ומפרטים',
+    'Select client' => 'בחירת לקוח',
+    'Select Client' => 'בחירת לקוח',
+    'Type of cabinet' => 'דגם הספריה',
+];

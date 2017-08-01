@@ -1,0 +1,24 @@
+AuthType Basic
+AuthName "Please login"
+AuthUserFile "/Users/korol/Sites/trello.loc/.htpasswd"
+Require valid-user
+
+
+
+
+
+RewriteEngine on
+
+
+
+
+
+
+# if a directory or a file exists, use it directly
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# otherwise forward it to index.php
+RewriteRule . index.php
+<Files htusers>
+deny from all
+</Files>
