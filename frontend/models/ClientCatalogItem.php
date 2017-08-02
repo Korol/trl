@@ -1,0 +1,51 @@
+<?php
+
+namespace frontend\models;
+
+use Yii;
+use frontend\models\CatalogItem;
+
+/**
+ * This is the model class for table "client_catalog_item".
+ *
+ * @property integer $id
+ * @property integer $client_id
+ * @property integer $catalog_item_id
+ */
+class ClientCatalogItem extends \yii\db\ActiveRecord
+{
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'client_catalog_item';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['client_id', 'catalog_item_id'], 'integer'],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'client_id' => 'Client ID',
+            'catalog_item_id' => 'Catalog Item ID',
+        ];
+    }
+
+    public function getCatalogItem()
+    {
+        return $this->hasOne(CatalogItem::className(), ['id' => 'catalog_item_id']);
+    }
+}

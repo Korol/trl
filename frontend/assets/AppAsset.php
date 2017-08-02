@@ -13,11 +13,13 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/site.css',
+        'css/jquery-ui.css',
     ];
     public $js = [
         'js/jquery_sex.js',
         'js/bootstrap_sex.js',
         'js/sketch.js',
+        'js/jquery-ui.js',
 //        'js/sketch1.js',
 
     ];
