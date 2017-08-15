@@ -8,7 +8,6 @@ use frontend\models\Catalog;
 use frontend\models\CatalogItem;
 use frontend\models\ClientCatalogItem;
 use yii\helpers\ArrayHelper;
-//use frontend\models\Mfiles;
 
 class CatalogController extends Controller
 {
@@ -36,13 +35,13 @@ class CatalogController extends Controller
 
     public function actionIndex()
     {
-        // client info
+        // информация о текущем клиенте
         $client_name = $this->s->get('client_name');
         $client_id = $this->s->get('client_id');
-        // Catalogs list
+        // список Каталогов
         $catalogs = Catalog::find()
             ->where('active = :active', [':active' => 1])
-            ->orderBy('title ASC')
+            ->orderBy('id ASC')
             ->all();
         if(!empty($catalogs)){
             $catalogs = ArrayHelper::index($catalogs, 'id');
@@ -51,9 +50,9 @@ class CatalogController extends Controller
         else{
             $catalogs_list = [];
         }
-        // current Catalog ID
+        // ID текущего Каталога
         $id = Yii::$app->request->get('id', 0);
-        // current Catalog Items
+        // элементы текущего Каталога
         if(!empty($id)){
             $catalog_items = CatalogItem::find()
                 ->where(
@@ -65,7 +64,7 @@ class CatalogController extends Controller
                 )
                 ->orderBy('id DESC')
                 ->all();
-            // client full catalog
+            // Каталог Клиента
             $client_catalog = ClientCatalogItem::find()
                 ->with('catalogItem')
                 ->where(
@@ -88,7 +87,7 @@ class CatalogController extends Controller
     }
 
     /**
-     * save Client Catalog into DB
+     * сохраняем Каталог в DB
      */
     public function actionSave()
     {
@@ -96,11 +95,10 @@ class CatalogController extends Controller
         $client_id = Yii::$app->request->post('client_id');
         $items = Yii::$app->request->post('items');
         if(!empty($items) && !empty($client_id)){
-            // split items
             $items_split = explode(',', $items);
-            // remove doubles
+            // удаляем дубли
             $items_uniq = array_unique($items_split);
-            // get all Client rows
+            // все записи Клиента
             $all_rows = ClientCatalogItem::find()
                 ->where(
                     'client_id = :client_id',
@@ -110,13 +108,13 @@ class CatalogController extends Controller
                 )
                 ->all();
             $all_rows_keys = (!empty($all_rows)) ? ArrayHelper::getColumn($all_rows, 'catalog_item_id') : [];
-            // save new rows
+            // сохраняем новые записи
             foreach ($items_uniq as $item){
-                // check if item already exists
+                // если такая запись уже есть – пропускаем
                 if(in_array($item, $all_rows_keys)){
                     continue;
                 }
-                // else: save it
+                // если нет – сохраняем
                 $cci_model = new ClientCatalogItem();
                 $cci_model->client_id = $client_id;
                 $cci_model->catalog_item_id = $item;

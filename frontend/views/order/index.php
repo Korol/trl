@@ -65,16 +65,17 @@ $this->title = Yii::t('common', 'Client Order');
                     <?php if(!empty($catalog_items)): ?>
                     <ul class="catalog-items-list droptrue">
                         <?php foreach ($catalog_items as $cat_item): ?>
-                        <li class="thumbnail catalog-column-item clearfix" data-itm="<?= $cat_item->id; ?>" data-type="design">
-                            <button onclick="removeItem(<?= $cat_item->id; ?>);" class="btn btn-danger btn-xs rm-itm">
+                        <li class="thumbnail catalog-column-item clearfix" data-itm="<?= $cat_item['ID']; ?>" data-type="design">
+                            <button onclick="removeItem(<?= $cat_item['ID']; ?>);" class="btn btn-danger btn-xs rm-itm">
                                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                             </button>
-                            <span class="cci-title"><?= $cat_item->title; ?></span>
+                            <span class="cci-title"><?= $cat_item['Name']; ?></span>
                             <span class="cci-img">
-                                <?= (!empty($cat_item->files[0]))
-                                    ? Html::img($cat_item->files[0]->url, ['alt' => $cat_item->title])
+                                <?= (!empty($cat_item['img']))
+                                    ? Html::img($cat_item['img'], ['alt' => $cat_item['Name']])
                                     : '';
                                 ?>
+<!--                                <img src="--><?//= $cat_item['img']; ?><!--" alt="--><?//= $cat_item['Name']; ?><!--">-->
                             </span>
                         </li>
                         <?php endforeach; ?>
@@ -155,6 +156,7 @@ $this->title = Yii::t('common', 'Client Order');
                     function (data) {
                         if(data*1 > 0){
                             alert('<?= Yii::t('common', 'Client Order was saved successfully!'); ?>');
+                            $('#sortable3').html('');
                         }
                         else{
                             alert('<?= Yii::t('common', 'Saving error!'); ?>');

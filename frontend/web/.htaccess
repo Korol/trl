@@ -1,9 +1,9 @@
-AuthType Basic
-AuthName "Please login"
-AuthUserFile "/Users/korol/Sites/trello.loc/.htpasswd"
-Require valid-user
+#AuthType Basic
+#AuthName "Please login"
+#AuthUserFile "/Users/korol/Sites/trello.loc/.htpasswd"
+#Require valid-user
 
-
+AddDefaultCharset UTF-8
 
 
 RewriteEngine on
