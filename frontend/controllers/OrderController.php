@@ -8,7 +8,7 @@ use frontend\models\ClientCatalogItem;
 use frontend\models\MfilesTrello;
 use frontend\models\ClientOrder;
 use frontend\models\ClientOrderItem;
-
+// TODO: переделать сохранение каталогов клиента с ItemID на SKU!!!!
 class OrderController extends Controller
 {
     // Переменная для хранения сессии

@@ -92,15 +92,15 @@ $this->title = Yii::t('common', 'Client Order');
                     <h4 class="text-center"><?= Yii::t('common', 'Client Catalog'); ?></h4>
                     <ul class="client-catalog-list droptrue">
                         <?php foreach ($client_catalog as $ccat_item): ?>
-                            <?php if($ccat_item->catalogItem->active == 0) continue; ?>
+                            <?php //if($ccat_item->catalogItem->active == 0) continue; ?>
                             <li class="thumbnail catalog-column-item clearfix" data-itm="<?= $ccat_item->catalog_item_id; ?>" data-type="catalog">
                                 <button onclick="removeItem(<?= $ccat_item->catalog_item_id; ?>);" class="btn btn-danger btn-xs rm-itm">
                                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                 </button>
-                                <span class="cci-title"><?= $ccat_item->catalogItem->title; ?></span>
+                                <span class="cci-title"><?= $ccat_item->catalogItem->name; ?></span>
                                 <span class="cci-img">
-                                <?= (!empty($ccat_item->catalogItem->files[0]))
-                                    ? Html::img($ccat_item->catalogItem->files[0]->url, ['alt' => $ccat_item->catalogItem->title])
+                                <?= (!empty($ccat_item->catalogItem->image))
+                                    ? Html::img($ccat_item->catalogItem->image, ['alt' => $ccat_item->catalogItem->name])
                                     : '';
                                 ?>
                             </span>

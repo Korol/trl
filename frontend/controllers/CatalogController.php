@@ -9,6 +9,7 @@ use frontend\models\CatalogItem;
 use frontend\models\ClientCatalogItem;
 use yii\helpers\ArrayHelper;
 
+// TODO: переделать сохранение каталогов клиента с ItemID на SKU!!!!
 class CatalogController extends Controller
 {
     // Переменная для хранения сессии
