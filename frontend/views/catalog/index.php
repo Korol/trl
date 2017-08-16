@@ -101,7 +101,7 @@ $this->title = Yii::t('common', 'Client Catalog');
                             <span class="cci-title"><?= $cat_item->name; ?></span>
                             <span class="cci-img">
                                 <?= (!empty($cat_item->image))
-                                    ? Html::img(Url::to(['@backend/web' . $cat_item->image]), ['alt' => $cat_item->name])
+                                    ? Html::img($cat_item->image, ['alt' => $cat_item->name])
                                     : '';
                                 ?>
                             </span>

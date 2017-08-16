@@ -243,7 +243,8 @@ class CatalogController extends Controller
     public function saveImage($url)
     {
         $return = '';
-        $path = '/import_images/';
+        $return_path = '/import_images/';
+        $path = Yii::getAlias('@frontend/web') . $return_path;
         if(!empty($url)){
             $url = $this->cleanImageLink($url);
             $filename = 'img_' . md5($url) . '.jpg';
@@ -251,7 +252,7 @@ class CatalogController extends Controller
                 $content = file_get_contents($url);
                 file_put_contents($path . $filename, $content);
             }
-            $return = $path . $filename;
+            $return = $return_path . $filename;
         }
         return $return;
     }
