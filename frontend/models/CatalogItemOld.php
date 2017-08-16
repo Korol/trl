@@ -10,21 +10,27 @@ use frontend\models\Catalog;
  *
  * @property integer $id
  * @property integer $catalog_id
- * @property string $name
- * @property string $image
- * @property string $sku
- * @property string $specification
- * @property string $placement
- * @property integer $places_num
+ * @property string $title
+ * @property string $description
+ * @property integer $active
  */
-class CatalogItem extends \yii\db\ActiveRecord
+class CatalogItemOld extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'catalog_item';
+        return 'catalog_item_old';
+    }
+
+    public function behaviors()
+    {
+        return [
+            'fileBehavior' => [
+                'class' => \nemmo\attachments\behaviors\FileBehavior::className()
+            ],
+        ];
     }
 
     /**
@@ -33,9 +39,9 @@ class CatalogItem extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['catalog_id', 'places_num'], 'integer'],
-            [['specification'], 'string'],
-            [['name', 'image', 'sku', 'placement'], 'string', 'max' => 255],
+            [['catalog_id', 'active'], 'integer'],
+            [['description'], 'string'],
+            [['title'], 'string', 'max' => 255],
         ];
     }
 
@@ -47,12 +53,9 @@ class CatalogItem extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'catalog_id' => 'Catalog ID',
-            'name' => 'Name',
-            'image' => 'Image',
-            'sku' => 'Sku',
-            'specification' => 'Specification',
-            'placement' => 'Placement',
-            'places_num' => 'Places Num',
+            'title' => 'Title',
+            'description' => 'Description',
+            'active' => 'Active',
         ];
     }
 

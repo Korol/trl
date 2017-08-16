@@ -56,13 +56,12 @@ class CatalogController extends Controller
         if(!empty($id)){
             $catalog_items = CatalogItem::find()
                 ->where(
-                    'active = :active AND catalog_id = :catalog_id',
+                    'catalog_id = :catalog_id',
                     [
-                        ':active' => 1,
                         ':catalog_id' => $id,
                     ]
                 )
-                ->orderBy('id DESC')
+                ->orderBy('id ASC')
                 ->all();
             // Каталог Клиента
             $client_catalog = ClientCatalogItem::find()
@@ -74,7 +73,7 @@ class CatalogController extends Controller
                     ]
                 )
                 ->orderBy('id ASC')
-                ->all();
+                ->all();//var_dump($client_catalog);die;
         }
         else{
             $catalog_items = $client_catalog = [];

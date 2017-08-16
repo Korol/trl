@@ -9,6 +9,7 @@
 /* @var $client_catalog frontend\controllers\CatalogController */
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 $this->title = Yii::t('common', 'Client Catalog');
 ?>
 
@@ -90,24 +91,24 @@ $this->title = Yii::t('common', 'Client Catalog');
                             : Yii::t('common', 'Catalog Name');
                         ?>
                     </h4>
-                    <?php if(!empty($catalog_items)): ?>
                     <ul class="catalog-items-list droptrue">
+                    <?php if(!empty($catalog_items)): ?>
                         <?php foreach ($catalog_items as $cat_item): ?>
                         <li class="thumbnail catalog-column-item clearfix" data-itm="<?= $cat_item->id; ?>">
                             <button onclick="removeItem(<?= $cat_item->id; ?>);" class="btn btn-danger btn-xs rm-itm">
                                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                             </button>
-                            <span class="cci-title"><?= $cat_item->title; ?></span>
+                            <span class="cci-title"><?= $cat_item->name; ?></span>
                             <span class="cci-img">
-                                <?= (!empty($cat_item->files[0]))
-                                    ? Html::img($cat_item->files[0]->url, ['alt' => $cat_item->title])
+                                <?= (!empty($cat_item->image))
+                                    ? Html::img(Url::to(['@backend/web' . $cat_item->image]), ['alt' => $cat_item->name])
                                     : '';
                                 ?>
                             </span>
                         </li>
                         <?php endforeach; ?>
-                    </ul>
                     <?php endif; ?>
+                    </ul>
                 </div>
             </div>
             <div class="col-md-3">
@@ -120,15 +121,15 @@ $this->title = Yii::t('common', 'Client Catalog');
                     <h4 class="text-center"><?= Yii::t('common', 'Client Catalog'); ?></h4>
                     <ul id="sortable3" class="client-catalog-list connectedSortable droptrue">
                         <?php foreach ($client_catalog as $ccat_item): ?>
-                            <?php if($ccat_item->catalogItem->active == 0) continue; ?>
+                            <?php //if($ccat_item->catalogItem->active == 0) continue; ?>
                             <li class="thumbnail catalog-column-item clearfix" data-itm="<?= $ccat_item->catalog_item_id; ?>">
                                 <button onclick="removeItem(<?= $ccat_item->catalog_item_id; ?>);" class="btn btn-danger btn-xs rm-itm">
                                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                 </button>
-                                <span class="cci-title"><?= $ccat_item->catalogItem->title; ?></span>
+                                <span class="cci-title"><?= $ccat_item->catalogItem->name; ?></span>
                                 <span class="cci-img">
-                                <?= (!empty($ccat_item->catalogItem->files[0]))
-                                    ? Html::img($ccat_item->catalogItem->files[0]->url, ['alt' => $ccat_item->catalogItem->title])
+                                <?= (!empty($ccat_item->image))
+                                    ? Html::img($ccat_item->image, ['alt' => $ccat_item->catalogItem->name])
                                     : '';
                                 ?>
                             </span>
