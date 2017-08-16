@@ -5,12 +5,12 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\CatalogItem;
+use backend\models\CatalogItemOld;
 
 /**
- * CatalogItemSearch represents the model behind the search form about `backend\models\CatalogItem`.
+ * CatalogItemSearch represents the model behind the search form about `app\models\CatalogItem`.
  */
-class CatalogItemSearch extends CatalogItem
+class CatalogItemOldSearch extends CatalogItemOld
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class CatalogItemSearch extends CatalogItem
     public function rules()
     {
         return [
-            [['id', 'catalog_id', 'places_num'], 'integer'],
-            [['name', 'sku', 'specification', 'placement'], 'safe'],
+            [['id', 'catalog_id', 'active'], 'integer'],
+            [['title', 'description'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class CatalogItemSearch extends CatalogItem
      */
     public function search($params)
     {
-        $query = CatalogItem::find();
+        $query = CatalogItemOld::find();
 
         // add conditions that should always apply here
 
@@ -61,14 +61,11 @@ class CatalogItemSearch extends CatalogItem
         $query->andFilterWhere([
             'id' => $this->id,
             'catalog_id' => $this->catalog_id,
-            'places_num' => $this->places_num,
+            'active' => $this->active,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'image', $this->image])
-            ->andFilterWhere(['like', 'sku', $this->sku])
-            ->andFilterWhere(['like', 'specification', $this->specification])
-            ->andFilterWhere(['like', 'placement', $this->placement]);
+        $query->andFilterWhere(['like', 'title', $this->title])
+            ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;
     }

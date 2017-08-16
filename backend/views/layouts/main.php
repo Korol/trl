@@ -41,6 +41,7 @@ AppAsset::register($this);
             'items' => [
                     ['label' => 'Catalogs', 'url' => ['/catalog']],
                     ['label' => 'Catalog Items', 'url' => ['/catalog-item']],
+                    ['label' => 'Import', 'url' => ['/catalog/import']],
             ],
         ],
         ['label' => 'Google Forms', 'url' => ['/googleforms']],

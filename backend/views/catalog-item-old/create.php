@@ -4,10 +4,10 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\CatalogItem */
+/* @var $model app\models\CatalogItem */
 
-$this->title = 'Create Catalog Item';
-$this->params['breadcrumbs'][] = ['label' => 'Catalog Items', 'url' => ['index']];
+$this->title = Yii::t('app', 'Create Catalog Item');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Catalog Items'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="catalog-item-create">

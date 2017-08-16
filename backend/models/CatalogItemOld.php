@@ -7,18 +7,15 @@ use backend\models\Catalog;
 use yii\helpers\ArrayHelper;
 
 /**
- * This is the model class for table "catalog_item_import".
+ * This is the model class for table "catalog_item".
  *
  * @property integer $id
  * @property integer $catalog_id
- * @property string $name
- * @property string $image
- * @property string $sku
- * @property string $specification
- * @property string $placement
- * @property integer $places_num
+ * @property string $title
+ * @property string $description
+ * @property integer $active
  */
-class CatalogItem extends \yii\db\ActiveRecord
+class CatalogItemOld extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
@@ -28,15 +25,24 @@ class CatalogItem extends \yii\db\ActiveRecord
         return 'catalog_item';
     }
 
+    public function behaviors()
+    {
+        return [
+            'fileBehavior' => [
+                'class' => \nemmo\attachments\behaviors\FileBehavior::className()
+            ],
+        ];
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['catalog_id', 'places_num'], 'integer'],
-            [['specification'], 'string'],
-            [['name', 'image', 'sku', 'placement'], 'string', 'max' => 255],
+            [['catalog_id', 'active'], 'integer'],
+            [['description'], 'string'],
+            [['title'], 'string', 'max' => 255],
         ];
     }
 
@@ -46,14 +52,11 @@ class CatalogItem extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'catalog_id' => 'Catalog ID',
-            'name' => 'Name',
-            'image' => 'Image',
-            'sku' => 'Sku',
-            'specification' => 'Specification',
-            'placement' => 'Placement',
-            'places_num' => 'Places Num',
+            'id' => Yii::t('app', 'ID'),
+            'catalog_id' => Yii::t('app', 'Catalog'),
+            'title' => Yii::t('app', 'Title'),
+            'description' => Yii::t('app', 'Description'),
+            'active' => Yii::t('app', 'Active'),
         ];
     }
 

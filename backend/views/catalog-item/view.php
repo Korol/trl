@@ -4,10 +4,10 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\CatalogItem */
+/* @var $model backend\models\CatalogItem */
 
-$this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Catalog Items'), 'url' => ['index']];
+$this->title = $model->name;
+$this->params['breadcrumbs'][] = ['label' => 'Catalog Items', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $catalog = $model->catalog;
 ?>
@@ -16,47 +16,41 @@ $catalog = $model->catalog;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
+        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                'confirm' => 'Are you sure you want to delete this item?',
                 'method' => 'post',
             ],
         ]) ?>
-        <?= Html::a(Yii::t('app', 'Create Catalog Item'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
             'id',
+            'name',
+            'sku',
             [
                 'attribute' => 'catalog_id',
                 'value' => $catalog->title,
             ],
             [
-                'attribute' => 'files',
+                'attribute' => 'filimagees',
                 'label' => 'Image',
                 'format' => 'raw',
                 'value' => function($data) {
                     $output = '';
-                    if (isset($data->files[0]))
-                        $output .= Html::img($data->files[0]->url, ['style' => 'max-width: 150px;']);
+                    if (isset($data->image))
+                        $output .= Html::img($data->image, ['style' => 'max-width: 150px;']);
                     return $output;
                 }
             ],
-            'title',
-            'description:ntext',
-            [
-                'attribute' => 'active',
-                'value' => function($data){
-                    return ($data->active > 0) ? 'Yes' : 'No';
-                }
-            ],
+            'specification:ntext',
+            'placement',
+            'places_num',
         ],
-    ]);
-    ?>
-
+    ]) ?>
 
 </div>

@@ -3,7 +3,7 @@
 #AuthUserFile "/Users/korol/Sites/trello.loc/.htpasswd"
 #Require valid-user
 
-
+AddDefaultCharset UTF-8
 
 
 

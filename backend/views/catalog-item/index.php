@@ -5,10 +5,10 @@ use yii\grid\GridView;
 use backend\models\CatalogItem;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\CatalogItemSearch */
+/* @var $searchModel backend\models\CatalogItemSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Catalog Items');
+$this->title = 'Catalog Items';
 $this->params['breadcrumbs'][] = $this->title;
 $catalog = CatalogItem::getCatalogList();
 ?>
@@ -18,27 +18,15 @@ $catalog = CatalogItem::getCatalogList();
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Catalog Item'), ['create'], ['class' => 'btn btn-success']) ?>
+<!--        --><?//= Html::a('Create Catalog Item', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+//            ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            [
-                'attribute' => 'files',
-                'label' => 'Image',
-                'format' => 'raw',
-                'value' => function($data) {
-                    $output = '';
-                    if (isset($data->files[0])){
-                        $output .= Html::img($data->files[0]->url, ['style' => 'max-width: 120px;']);
-                    }
-                    return $output;
-                }
-            ],
             [
                 'attribute' => 'catalog_id',
                 'format' => 'html',
@@ -47,24 +35,25 @@ $catalog = CatalogItem::getCatalogList();
                     return $data->catalog->title;
                 }
             ],
-            'title',
-            'description:ntext',
+            'name',
             [
-                'attribute' => 'active',
-                'filter' => [0 => 'No', 1 => 'Yes'],
-                'format' => 'html',
-                'value' => function($data){
-                    return ($data->active > 0) ? 'Yes' : 'No';
+                'attribute' => 'image',
+                'label' => 'Image',
+                'format' => 'raw',
+                'value' => function($data) {
+                    $output = '';
+                    if (!empty($data->image)){
+                        $output .= Html::img($data->image, ['style' => 'max-width: 120px;']);
+                    }
+                    return $output;
                 }
             ],
+            'sku',
+            // 'specification:ntext',
+            // 'placement',
+            // 'places_num',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 </div>
-<script>
-    jQuery(document).ready(function ($) {
-        $(".group3").colorbox({rel:'group3', transition:"none", width:"75%", height:"75%"});
-    });
-
-</script>

@@ -62,8 +62,8 @@ $this->title = Yii::t('common', 'Client Order');
                     <h4 class="text-center">
                         <?= Yii::t('common', 'Client Design'); ?>
                     </h4>
-                    <?php if(!empty($catalog_items)): ?>
                     <ul class="catalog-items-list droptrue">
+                    <?php if(!empty($catalog_items)): ?>
                         <?php foreach ($catalog_items as $cat_item): ?>
                         <li class="thumbnail catalog-column-item clearfix" data-itm="<?= $cat_item['ID']; ?>" data-type="design">
                             <button onclick="removeItem(<?= $cat_item['ID']; ?>);" class="btn btn-danger btn-xs rm-itm">
@@ -75,12 +75,11 @@ $this->title = Yii::t('common', 'Client Order');
                                     ? Html::img($cat_item['img'], ['alt' => $cat_item['Name']])
                                     : '';
                                 ?>
-<!--                                <img src="--><?//= $cat_item['img']; ?><!--" alt="--><?//= $cat_item['Name']; ?><!--">-->
                             </span>
                         </li>
                         <?php endforeach; ?>
-                    </ul>
                     <?php endif; ?>
+                    </ul>
                 </div>
             </div>
             <div class="col-md-1">

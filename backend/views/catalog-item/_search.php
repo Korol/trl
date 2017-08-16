@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\CatalogItemSearch */
+/* @var $model backend\models\CatalogItemSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -19,15 +19,21 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'catalog_id') ?>
 
-    <?= $form->field($model, 'title') ?>
+    <?= $form->field($model, 'name') ?>
 
-    <?= $form->field($model, 'description') ?>
+    <?= $form->field($model, 'image') ?>
 
-    <?= $form->field($model, 'active') ?>
+    <?= $form->field($model, 'sku') ?>
+
+    <?php // echo $form->field($model, 'specification') ?>
+
+    <?php // echo $form->field($model, 'placement') ?>
+
+    <?php // echo $form->field($model, 'places_num') ?>
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) ?>
+        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

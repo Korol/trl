@@ -3,7 +3,7 @@
 namespace backend\models;
 
 use Yii;
-use backend\models\CatalogItem;
+use backend\models\CatalogItemOld;
 
 /**
  * This is the model class for table "catalog".
@@ -50,6 +50,6 @@ class Catalog extends \yii\db\ActiveRecord
 
     public function getCatalogItem()
     {
-        return $this->hasMany(CatalogItem::className(), ['catalog_id' => 'id']);
+        return $this->hasMany(CatalogItemOld::className(), ['catalog_id' => 'id']);
     }
 }
