@@ -10,7 +10,7 @@ use frontend\models\CatalogItem;
  *
  * @property integer $id
  * @property integer $client_id
- * @property integer $catalog_item_id
+ * @property integer $catalog_item_sku
  */
 class ClientCatalogItem extends \yii\db\ActiveRecord
 {
@@ -28,7 +28,8 @@ class ClientCatalogItem extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['client_id', 'catalog_item_id'], 'integer'],
+            [['client_id'], 'integer'],
+            [['catalog_item_sku'], 'string', 'max' => 255],
         ];
     }
 
@@ -40,12 +41,12 @@ class ClientCatalogItem extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'client_id' => 'Client ID',
-            'catalog_item_id' => 'Catalog Item ID',
+            'catalog_item_sku' => 'Catalog Item SKU',
         ];
     }
 
     public function getCatalogItem()
     {
-        return $this->hasOne(CatalogItem::className(), ['id' => 'catalog_item_id']);
+        return $this->hasOne(CatalogItem::className(), ['sku' => 'catalog_item_sku']);
     }
 }

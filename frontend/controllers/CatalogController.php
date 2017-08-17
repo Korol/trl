@@ -9,7 +9,7 @@ use frontend\models\CatalogItem;
 use frontend\models\ClientCatalogItem;
 use yii\helpers\ArrayHelper;
 
-// TODO: переделать сохранение каталогов клиента с ItemID на SKU!!!!
+// TODO: переделать сохранение каталогов клиента с CatalogItemID на SKU!!!!
 class CatalogController extends Controller
 {
     // Переменная для хранения сессии
@@ -74,7 +74,7 @@ class CatalogController extends Controller
                     ]
                 )
                 ->orderBy('id ASC')
-                ->all();//var_dump($client_catalog);die;
+                ->all();
         }
         else{
             $catalog_items = $client_catalog = [];
@@ -117,12 +117,125 @@ class CatalogController extends Controller
                 // если нет – сохраняем
                 $cci_model = new ClientCatalogItem();
                 $cci_model->client_id = $client_id;
-                $cci_model->catalog_item_id = $item;
+                $cci_model->catalog_item_sku = $item;
                 $cci_model->save();
             }
             $return = 1;
         }
         echo $return;
+    }
+
+    /**
+     * получаем информацию о продукте для AJAX-запроса
+     */
+    public function actionGetItem()
+    {
+        $return = ['name' => ''];
+        if(Yii::$app->request->isPost){
+            $sku = Yii::$app->request->post('sku', '');
+            if(!empty($sku)){
+                $item = CatalogItem::find()->where(['sku' => $sku])->one();
+                if(!empty($item)){
+                    $return = [
+                        'name' => $item->name,
+                        'image' => $item->image,
+                        'sku' => $item->sku,
+                        'specification' => $item->specification,
+                        'placement' => $item->placement,
+                        'places_num' => $item->places_num,
+                    ];
+                }
+            }
+        }
+        echo json_encode($return);
+    }
+
+    /**
+     * сохраняем изменения в карточке продукта по AJAX-запросу
+     */
+    public function actionSaveItem()
+    {
+        $return = 0;
+        if(Yii::$app->request->isPost){
+            $sku = Yii::$app->request->post('sku', '');
+            $specification = Yii::$app->request->post('specification', '');
+            $placement = Yii::$app->request->post('placement', '');
+            $places_num = Yii::$app->request->post('places_num', '');
+            $type = Yii::$app->request->post('type', '');
+            if(!empty($sku) && ($type === 'catalog')){
+                // продукт из локального каталога
+                $update = [
+                    'specification' => $specification,
+                    'placement' => $placement,
+                    'places_num' => $places_num,
+                ];
+                $where = [
+                    'sku' => $sku,
+                ];
+                CatalogItem::updateAll($update, $where);
+                $return = 1;
+            }
+            elseif($type === 'design'){
+                // продукт из M-files
+                $image = Yii::$app->request->post('image', '');
+                $name = Yii::$app->request->post('name', '');
+                $new = Yii::$app->request->post('new', '0');
+                if(!empty($new)){
+                    // новый продукт – добавляем
+                    $item = new CatalogItem();
+                    $item->catalog_id = 0; // 0 - вне каталогов, из M-files
+                    $item->name = $name;
+                    $item->sku = $sku;
+                    $item->image = $image;
+                    $item->specification = $specification;
+                    $item->placement = $placement;
+                    $item->places_num = $places_num;
+                    $item->save();
+                }
+                else{
+                    // продукт уже в БД – обновляем
+                    $update = [
+                        'name' => $name,
+                        'sku' => $sku,
+                        'specification' => $specification,
+                        'placement' => $placement,
+                        'places_num' => $places_num,
+                    ];
+                    $where = [
+                        'image' => $image,
+                    ];
+                    CatalogItem::updateAll($update, $where);
+                }
+                $return = 1;
+            }
+        }
+        echo $return;
+    }
+
+    /**
+     * получаем информацию о продукте для AJAX-запроса - продукт из M-files
+     */
+    public function actionGetMfilesItem()
+    {
+        $return = ['name' => ''];
+        if(Yii::$app->request->isPost){
+//            $sku = Yii::$app->request->post('sku', '');
+            $img = Yii::$app->request->post('img', '');
+            if(!empty($img)){
+                $item = CatalogItem::find()->where(['image' => $img])->one();
+                if(!empty($item)){
+                    $return = [
+                        'name' => $item->name,
+                        'image' => $item->image,
+                        'sku' => $item->sku,
+                        'specification' => $item->specification,
+                        'placement' => $item->placement,
+                        'places_num' => $item->places_num,
+                    ];
+                }
+            }
+        }
+        echo json_encode($return);
     }
 
 }

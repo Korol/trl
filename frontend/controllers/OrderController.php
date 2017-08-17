@@ -2,13 +2,14 @@
 
 namespace frontend\controllers;
 
+use frontend\models\CatalogItem;
 use Yii;
 use yii\web\Controller;
 use frontend\models\ClientCatalogItem;
 use frontend\models\MfilesTrello;
 use frontend\models\ClientOrder;
 use frontend\models\ClientOrderItem;
-// TODO: переделать сохранение каталогов клиента с ItemID на SKU!!!!
+// TODO: переделать сохранение каталогов клиента с CatalogItemID на SKU!!!!
 class OrderController extends Controller
 {
     // Переменная для хранения сессии
@@ -96,6 +97,15 @@ class OrderController extends Controller
                     $order_items[$item_split[0]]['qty']++;
                 }
                 else{
+                    // если тип == design – проверяем поиском по имени картинки, есть ли товар в БД
+                    if($item_split[1] == 'design'){
+                        $itm = CatalogItem::find()->where(['like', 'image', $item_split[0]])->one();
+                        if(empty($itm))
+                            continue; // товара нет в БД – пропускаем, такой товар в заказ не идёт
+                        else{
+                            $item_split[0] = $itm->id;
+                        }
+                    }
                     // добавляем товар в заказ
                     $order_items[$item_split[0]] = [
                         'client_id' => $client_id,
