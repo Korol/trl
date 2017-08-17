@@ -13,6 +13,9 @@ use Yii;
  * @property integer $catalog_item_id
  * @property string $type
  * @property integer $qty
+ * @property string $comment
+ * @property string $placement
+ * @property integer $places_num
  */
 class ClientOrderItem extends \yii\db\ActiveRecord
 {
@@ -30,8 +33,8 @@ class ClientOrderItem extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['client_id', 'order_id', 'catalog_item_id', 'qty'], 'integer'],
-            [['type'], 'string'],
+            [['client_id', 'order_id', 'catalog_item_id', 'qty', 'places_num'], 'integer'],
+            [['type', 'comment', 'placement'], 'string'],
         ];
     }
 
@@ -47,6 +50,9 @@ class ClientOrderItem extends \yii\db\ActiveRecord
             'catalog_item_id' => 'Catalog Item ID',
             'type' => 'Type',
             'qty' => 'Qty',
+            'comment' => 'Comment',
+            'placement' => 'Placement',
+            'places_num' => 'Places number',
         ];
     }
 }

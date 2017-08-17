@@ -16,6 +16,7 @@ use frontend\models\Catalog;
  * @property string $specification
  * @property string $placement
  * @property integer $places_num
+ * @property string $comment
  */
 class CatalogItem extends \yii\db\ActiveRecord
 {
@@ -34,7 +35,7 @@ class CatalogItem extends \yii\db\ActiveRecord
     {
         return [
             [['catalog_id', 'places_num'], 'integer'],
-            [['specification'], 'string'],
+            [['specification', 'comment'], 'string'],
             [['name', 'image', 'sku', 'placement'], 'string', 'max' => 255],
         ];
     }
@@ -53,6 +54,7 @@ class CatalogItem extends \yii\db\ActiveRecord
             'specification' => 'Specification',
             'placement' => 'Placement',
             'places_num' => 'Places Num',
+            'comment' => 'Comment',
         ];
     }
 

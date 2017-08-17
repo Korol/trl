@@ -143,6 +143,7 @@ class CatalogController extends Controller
                         'specification' => $item->specification,
                         'placement' => $item->placement,
                         'places_num' => $item->places_num,
+                        'comment' => $item->comment,
                     ];
                 }
             }
@@ -161,6 +162,7 @@ class CatalogController extends Controller
             $specification = Yii::$app->request->post('specification', '');
             $placement = Yii::$app->request->post('placement', '');
             $places_num = Yii::$app->request->post('places_num', '');
+            $comment = Yii::$app->request->post('comment', '');
             $type = Yii::$app->request->post('type', '');
             if(!empty($sku) && ($type === 'catalog')){
                 // продукт из локального каталога
@@ -168,6 +170,7 @@ class CatalogController extends Controller
                     'specification' => $specification,
                     'placement' => $placement,
                     'places_num' => $places_num,
+                    'comment' => $comment,
                 ];
                 $where = [
                     'sku' => $sku,
@@ -190,6 +193,7 @@ class CatalogController extends Controller
                     $item->specification = $specification;
                     $item->placement = $placement;
                     $item->places_num = $places_num;
+                    $item->comment = $comment;
                     $item->save();
                 }
                 else{
@@ -200,6 +204,7 @@ class CatalogController extends Controller
                         'specification' => $specification,
                         'placement' => $placement,
                         'places_num' => $places_num,
+                        'comment' => $comment,
                     ];
                     $where = [
                         'image' => $image,
@@ -231,11 +236,41 @@ class CatalogController extends Controller
                         'specification' => $item->specification,
                         'placement' => $item->placement,
                         'places_num' => $item->places_num,
+                        'comment' => $item->comment,
                     ];
                 }
             }
         }
         echo json_encode($return);
+    }
+
+    /**
+     * сохраняем изменения в сессии для последующего заказа по AJAX-запросу
+     */
+    public function actionSaveItemSession()
+    {
+        $return = 0;
+        if(Yii::$app->request->isPost){
+            $sku = Yii::$app->request->post('sku', '');
+            $specification = Yii::$app->request->post('specification', '');
+            $placement = Yii::$app->request->post('placement', '');
+            $places_num = Yii::$app->request->post('places_num', '');
+            $comment = Yii::$app->request->post('comment', '');
+//            $type = Yii::$app->request->post('type', '');
+            if(!empty($sku)){
+                $item = CatalogItem::find()->where(['sku' => $sku])->one();
+                $sess_id = (!empty($item->id)) ? $item->id : $sku; // ID или SKU
+                $session = Yii::$app->session;
+                $session['item_' . $sess_id] = [
+                    'specification' => $specification,
+                    'placement' => $placement,
+                    'places_num' => $places_num,
+                    'comment' => $comment,
+                ];
+                $return = 1;
+            }
+        }
+        echo $return;
     }
 
 }

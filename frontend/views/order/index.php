@@ -8,7 +8,6 @@ use yii\helpers\Html;
 $this->title = Yii::t('common', 'Client Order');
 ?>
 
-<!--<h1 class="header-frame">--><?//= Yii::t('common', 'Сatalog for the Client'); ?><!--</h1>-->
 <h4><b><?= Yii::t('common', 'Order for the Client'); ?>: <?= $client_name; ?></b></h4><br>
 
 <style>
@@ -75,7 +74,7 @@ $this->title = Yii::t('common', 'Client Order');
                     <?php if(!empty($catalog_items)): ?>
                         <?php foreach ($catalog_items as $cat_item): ?>
                         <li class="thumbnail catalog-column-item clearfix" data-itm="<?= $cat_item['ID']; ?>" data-img="<?= $cat_item['img']; ?>" data-type="design">
-                            <button onclick="removeItem(<?= $cat_item['ID']; ?>);" class="btn btn-danger btn-xs rm-itm">
+                            <button onclick="removeItem('<?= $cat_item['ID']; ?>');" class="btn btn-danger btn-xs rm-itm">
                                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                             </button>
                             <span class="cci-title"><?= $cat_item['Name']; ?></span>
@@ -101,9 +100,8 @@ $this->title = Yii::t('common', 'Client Order');
                     <h4 class="text-center"><?= Yii::t('common', 'Client Catalog'); ?></h4>
                     <ul class="client-catalog-list droptrue">
                         <?php foreach ($client_catalog as $ccat_item): ?>
-                            <?php //if($ccat_item->catalogItem->active == 0) continue; ?>
                             <li class="thumbnail catalog-column-item clearfix" data-itm="<?= $ccat_item->catalog_item_sku; ?>" data-type="catalog">
-                                <button onclick="removeItem(<?= $ccat_item->catalog_item_sku; ?>);" class="btn btn-danger btn-xs rm-itm">
+                                <button onclick="removeItem('<?= $ccat_item->catalog_item_sku; ?>');" class="btn btn-danger btn-xs rm-itm">
                                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                 </button>
                                 <span class="cci-title"><?= $ccat_item->catalogItem->name; ?></span>
@@ -142,7 +140,7 @@ $this->title = Yii::t('common', 'Client Order');
         $( "ul.droptrue" ).sortable({
             connectWith: ".connectedSortable",
             remove: function(event, ui) {
-                ui.item.clone().appendTo('#sortable3');
+                ui.item.clone(true).appendTo('#sortable3');
                 $(this).sortable('cancel');
             }
         }).disableSelection();
@@ -180,7 +178,8 @@ $this->title = Yii::t('common', 'Client Order');
         });
 
         // показ карточки товара из каталога Клиента в модальном окне
-        $('ul.client-catalog-list > li.thumbnail').click(function(){
+//        $('ul.client-catalog-list > li.thumbnail').click(function(){
+        $('ul.client-catalog-list > li.thumbnail > span.cci-img > img').click(function(){
             // скрываем сообщения
             $('#PM_info').removeClass('show');
             $('#PM_success').removeClass('show');
@@ -188,11 +187,20 @@ $this->title = Yii::t('common', 'Client Order');
             $('#PM_info').addClass('hide');
             $('#PM_success').addClass('hide');
             $('#PM_error').addClass('hide');
+            // меняем кнопки сохранения
+//            $('#PM_order_save').removeClass('show');
+//            $('#PM_order_save').addClass('hide');
+//            $('#PM_save').removeClass('hide');
+//            $('#PM_save').addClass('show');
             // ставим readonly для name и sku
             $('#PM_name').attr('readonly', 'readonly');
             $('#PM_sku').attr('readonly', 'readonly');
+            // скрываем поле Комментарий в форме
+//            $('#PM_comment_area').removeClass('show');
+//            $('#PM_comment_area').addClass('hide');
             // SKU продукта
-            var itemSku = $(this).data('itm');
+//            var itemSku = $(this).data('itm');
+            var itemSku = $(this).closest('li.thumbnail').data('itm');
             $.post(
                 '/catalog/get-item',
                 { sku: itemSku },
@@ -205,6 +213,7 @@ $this->title = Yii::t('common', 'Client Order');
                         $('#PM_specification').val(data.specification);
                         $('#PM_placement').val(data.placement);
                         $('#PM_places_num').val(data.places_num);
+                        $('#PM_comment').val(data.comment);
                         if(data.image !== ''){
                             $('#PM_image').removeClass('hide');
                             $('#PM_image').addClass('show');
@@ -224,7 +233,7 @@ $this->title = Yii::t('common', 'Client Order');
             );
         });
 
-        // показ карточки товара из M-files в модальном окне
+        // показ карточки товара из M-files в модальном окне ( > span.cci-img > img)
         $('ul.catalog-items-list > li.thumbnail').click(function(){
             // скрываем сообщения
             $('#PM_info').removeClass('show');
@@ -233,11 +242,20 @@ $this->title = Yii::t('common', 'Client Order');
             $('#PM_info').addClass('hide');
             $('#PM_success').addClass('hide');
             $('#PM_error').addClass('hide');
+            // меняем кнопки сохранения
+//            $('#PM_order_save').removeClass('show');
+//            $('#PM_order_save').addClass('hide');
+//            $('#PM_save').removeClass('hide');
+//            $('#PM_save').addClass('show');
             // удаляем readonly для name и sku
             $('#PM_name').removeAttr('readonly');
             $('#PM_sku').removeAttr('readonly');
+            // скрываем поле Комментарий в форме
+//            $('#PM_comment_area').removeClass('show');
+//            $('#PM_comment_area').addClass('hide');
             // идентификатор продукта
-            var itemImg = $(this).data('img');
+//            var itemImg = $(this).data('img');
+            var itemImg = $(this).closest('li.thumbnail').data('img');
             $('#PM_image').attr('src', itemImg);
             $.post(
                 '/catalog/get-mfiles-item',
@@ -255,6 +273,7 @@ $this->title = Yii::t('common', 'Client Order');
                         $('#PM_specification').val(data.specification);
                         $('#PM_placement').val(data.placement);
                         $('#PM_places_num').val(data.places_num);
+                        $('#PM_comment').val(data.comment);
                         if(data.image !== ''){
                             $('#PM_image').removeClass('hide');
                             $('#PM_image').addClass('show');
@@ -278,12 +297,122 @@ $this->title = Yii::t('common', 'Client Order');
                         $('#PM_specification').val('');
                         $('#PM_placement').val('');
                         $('#PM_places_num').val('');
+                        $('#PM_comment').val('');
                         $('#ProductModal').modal('show');
                     }
                 },
                 'json'
             );
         });
+
+        // показ карточки товара из Заказа в модальном окне
+//        $('ul.client-order-list > li.thumbnail').click(function(){
+//            // скрываем сообщения
+//            $('#PM_info').removeClass('show');
+//            $('#PM_success').removeClass('show');
+//            $('#PM_error').removeClass('show');
+//            $('#PM_info').addClass('hide');
+//            $('#PM_success').addClass('hide');
+//            $('#PM_error').addClass('hide');
+//            // меняем кнопки сохранения
+//            $('#PM_save').removeClass('show');
+//            $('#PM_save').addClass('hide');
+//            $('#PM_order_save').removeClass('hide');
+//            $('#PM_order_save').addClass('show');
+//            // показываем поле Комментарий в форме
+//            $('#PM_comment_area').removeClass('hide');
+//            $('#PM_comment_area').addClass('show');
+//            // определяем тип продукта
+//            var itemType = $(this).data('type');
+//
+//            if(itemType === 'design') {
+//                // это продукт из M-files
+//                // ставим readonly для name и sku
+//                $('#PM_name').attr('readonly', 'readonly');
+//                $('#PM_sku').attr('readonly', 'readonly');
+//                // идентификатор продукта
+//                var itemImg = $(this).data('img');
+//                $('#PM_image').attr('src', itemImg);
+//                $.post(
+//                    '/catalog/get-mfiles-item',
+//                    {
+//                        img: itemImg
+//                    },
+//                    function (data) {
+//                        if (data.name !== '') {
+//                            // продукт уже добавлен в БД – заполняем форму
+//                            $('#PM_type').val('design');
+//                            $('#PM_new').val('0');
+//                            $('#PM_title').html(data.name);
+//                            $('#PM_name').val(data.name);
+//                            $('#PM_sku').val(data.sku);
+//                            $('#PM_specification').val(data.specification);
+//                            $('#PM_placement').val(data.placement);
+//                            $('#PM_places_num').val(data.places_num);
+//                            if (data.image !== '') {
+//                                $('#PM_image').removeClass('hide');
+//                                $('#PM_image').addClass('show');
+//                                $('#PM_image').attr('src', data.image);
+//                                $('#PM_image').attr('alt', data.name);
+//                            }
+//                            else {
+//                                $('#PM_image').removeClass('show');
+//                                $('#PM_image').addClass('hide');
+//                                $('#PM_image').attr('src', '');
+//                                $('#PM_image').attr('alt', '');
+//                            }
+//                            $('#ProductModal').modal('show');
+//                        }
+//                        else {
+//                            // продукта нет в БД – показываем чистую форму
+//                            $('#PM_type').val('design');
+//                            $('#PM_new').val('1');
+//                            $('#PM_name').val('');
+//                            $('#PM_sku').val('');
+//                            $('#PM_specification').val('');
+//                            $('#PM_placement').val('');
+//                            $('#PM_places_num').val('');
+//                            $('#ProductModal').modal('show');
+//                        }
+//                    },
+//                    'json'
+//                );
+//            }
+//            else if(itemType === 'catalog'){
+//                // это продукт из локального каталога
+//                // SKU продукта
+//                var itemSku = $(this).data('itm');
+//                $.post(
+//                    '/catalog/get-item',
+//                    { sku: itemSku },
+//                    function(data){
+//                        if(data.name !== ''){
+//                            $('#PM_type').val('catalog');
+//                            $('#PM_title').html(data.name);
+//                            $('#PM_name').val(data.name);
+//                            $('#PM_sku').val(data.sku);
+//                            $('#PM_specification').val(data.specification);
+//                            $('#PM_placement').val(data.placement);
+//                            $('#PM_places_num').val(data.places_num);
+//                            if(data.image !== ''){
+//                                $('#PM_image').removeClass('hide');
+//                                $('#PM_image').addClass('show');
+//                                $('#PM_image').attr('src', data.image);
+//                                $('#PM_image').attr('alt', data.name);
+//                            }
+//                            else{
+//                                $('#PM_image').removeClass('show');
+//                                $('#PM_image').addClass('hide');
+//                                $('#PM_image').attr('src', '');
+//                                $('#PM_image').attr('alt', '');
+//                            }
+//                            $('#ProductModal').modal('show');
+//                        }
+//                    },
+//                    'json'
+//                );
+//            }
+//        });
 
         // сохраняем изменения в карточке товара
         $('#PM_save').click(function () {
@@ -295,6 +424,7 @@ $this->title = Yii::t('common', 'Client Order');
             var pmType = $('#PM_type').val();
             var pmNew = $('#PM_new').val();
             var pmImage = $('#PM_image').attr('src');
+            var pmComment = $('#PM_comment').val();
             if(pmSku !== ''){
                 $.post(
                     '/catalog/save-item',
@@ -306,7 +436,8 @@ $this->title = Yii::t('common', 'Client Order');
                         sku: pmSku,
                         type: pmType,
                         image: pmImage,
-                        new: pmNew
+                        new: pmNew,
+                        comment: pmComment
                     },
                     function(data){
                         if(data*1 > 0){
@@ -326,12 +457,56 @@ $this->title = Yii::t('common', 'Client Order');
                 );
             }
         });
+
+        // сохраняем изменения в сессии для оформления заказа
+//        $('#PM_order_save').click(function () {
+//            var pmName = $('#PM_name').val();
+//            var pmSpecification = $('#PM_specification').val();
+//            var pmPlacement = $('#PM_placement').val();
+//            var pmPlacesNum = $('#PM_places_num').val();
+//            var pmSku = $('#PM_sku').val();
+//            var pmType = $('#PM_type').val();
+//            var pmNew = $('#PM_new').val();
+//            var pmComment = $('#PM_comment').val();
+//            var pmImage = $('#PM_image').attr('src');
+//            if(pmSku !== ''){
+//                $.post(
+//                    '/catalog/save-item-session',
+//                    {
+//                        name: pmName,
+//                        specification: pmSpecification,
+//                        placement: pmPlacement,
+//                        places_num: pmPlacesNum,
+//                        sku: pmSku,
+//                        type: pmType,
+//                        image: pmImage,
+//                        new: pmNew,
+//                        comment: pmComment
+//                    },
+//                    function(data){
+//                        if(data*1 > 0){
+//                            $('#PM_success').removeClass('hide');
+//                            $('#PM_info').removeClass('hide');
+//                            $('#PM_success').addClass('show');
+//                            $('#PM_info').addClass('show');
+//                        }
+//                        else{
+//                            $('#PM_error').removeClass('hide');
+//                            $('#PM_info').removeClass('hide');
+//                            $('#PM_error').addClass('show');
+//                            $('#PM_info').addClass('show');
+//                        }
+//                    },
+//                    'text'
+//                );
+//            }
+//        });
     });
 
     // удаление элемента из колонки заказа
     function removeItem(itm) {
         $('#sortable3 li').each(function () {
-            if($(this).data('itm')*1 === itm*1){
+            if($(this).data('itm') === itm){
                 $(this).remove();
                 return false;
             }
@@ -373,6 +548,10 @@ $this->title = Yii::t('common', 'Client Order');
                         <label for="PM_places_num">Places number:</label>
                         <input type="text" name="pm_places_num" id="PM_places_num" class="form-control">
                     </div>
+                    <div class="form-group" id="PM_comment_area">
+                        <label for="PM_comment">Comment:</label>
+                        <textarea name="pm_comment" id="PM_comment" class="form-control" cols="30" rows="5"></textarea>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -381,7 +560,7 @@ $this->title = Yii::t('common', 'Client Order');
                         <strong>Success!</strong> All changes saved!
                     </div>
                     <div id="PM_error" class="alert alert-danger alert-dismissible hide" role="alert">
-                        <strong>Error!</strong> All changes not saved!
+                        <strong>Error!</strong> Changes not saved!
                     </div>
                 </div>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

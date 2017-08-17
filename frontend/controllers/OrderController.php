@@ -103,7 +103,7 @@ class OrderController extends Controller
                         if(empty($itm))
                             continue; // товара нет в БД – пропускаем, такой товар в заказ не идёт
                         else{
-                            $item_split[0] = $itm->id;
+                            $item_split[0] = $itm->sku;
                         }
                     }
                     // добавляем товар в заказ
@@ -125,6 +125,20 @@ class OrderController extends Controller
                     $clientOrderItem->catalog_item_id = $order_item['catalog_item_id'];
                     $clientOrderItem->type = $order_item['type'];
                     $clientOrderItem->qty = $order_item['qty'];
+                    $session = Yii::$app->session;
+                    // проверяем и получаем данные из сессии – если они там есть, по CatalogItemID
+                    if ($session->has('item_' . $order_item['catalog_item_id'])){
+                        $clientOrderItem->comment = (!empty($session['item_' . $order_item['catalog_item_id']]['comment']))
+                            ? $session['item_' . $order_item['catalog_item_id']]['comment']
+                            : '';
+                        $clientOrderItem->placement = (!empty($session['item_' . $order_item['catalog_item_id']]['placement']))
+                            ? $session['item_' . $order_item['catalog_item_id']]['placement']
+                            : '';
+                        $clientOrderItem->places_num = (!empty($session['item_' . $order_item['catalog_item_id']]['places_num']))
+                            ? $session['item_' . $order_item['catalog_item_id']]['places_num']
+                            : 0;
+                        $session->remove('item_' . $order_item['catalog_item_id']);
+                    }
                     $clientOrderItem->save();
                 }
             }

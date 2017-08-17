@@ -9,11 +9,9 @@
 /* @var $client_catalog frontend\controllers\CatalogController */
 
 use yii\helpers\Html;
-use yii\helpers\Url;
 $this->title = Yii::t('common', 'Client Catalog');
 ?>
 
-<!--<h1 class="header-frame">--><?//= Yii::t('common', 'Сatalog for the Client'); ?><!--</h1>-->
 <h4><b><?= Yii::t('common', 'Сatalog for the Client'); ?>: <?= $client_name; ?></b></h4><br>
 <div class="row">
     <div class="col-md-5">
@@ -104,7 +102,7 @@ $this->title = Yii::t('common', 'Client Catalog');
                     <?php if(!empty($catalog_items)): ?>
                         <?php foreach ($catalog_items as $cat_item): ?>
                         <li class="thumbnail catalog-column-item clearfix" data-itm="<?= $cat_item->sku; ?>">
-                            <button onclick="removeItem(<?= $cat_item->id; ?>);" class="btn btn-danger btn-xs rm-itm">
+                            <button onclick="removeItem('<?= $cat_item->id; ?>');" class="btn btn-danger btn-xs rm-itm">
                                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                             </button>
                             <span class="cci-title"><?= $cat_item->name; ?></span>
@@ -130,9 +128,8 @@ $this->title = Yii::t('common', 'Client Catalog');
                     <h4 class="text-center"><?= Yii::t('common', 'Client Catalog'); ?></h4>
                     <ul id="sortable3" class="client-catalog-list connectedSortable droptrue">
                         <?php foreach ($client_catalog as $ccat_item): ?>
-                            <?php //if($ccat_item->catalogItem->active == 0) continue; ?>
                             <li class="thumbnail catalog-column-item clearfix" data-itm="<?= $ccat_item->catalog_item_sku; ?>">
-                                <button onclick="removeItem(<?= $ccat_item->catalog_item_sku; ?>);" class="btn btn-danger btn-xs rm-itm">
+                                <button onclick="removeItem('<?= $ccat_item->catalog_item_sku; ?>');" class="btn btn-danger btn-xs rm-itm">
                                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                 </button>
                                 <span class="cci-title"><?= $ccat_item->catalogItem->name; ?></span>
@@ -160,7 +157,7 @@ $this->title = Yii::t('common', 'Client Catalog');
         $( "ul.droptrue" ).sortable({
             connectWith: ".connectedSortable",
             remove: function(event, ui) {
-                ui.item.clone().appendTo('#sortable3');
+                ui.item.clone(true).appendTo('#sortable3');
                 $(this).sortable('cancel');
             }
         }).disableSelection();
@@ -218,6 +215,7 @@ $this->title = Yii::t('common', 'Client Catalog');
                         $('#PM_specification').val(data.specification);
                         $('#PM_placement').val(data.placement);
                         $('#PM_places_num').val(data.places_num);
+                        $('#PM_comment').val(data.comment);
                         if(data.image !== ''){
                             $('#PM_image').removeClass('hide');
                             $('#PM_image').addClass('show');
@@ -244,6 +242,7 @@ $this->title = Yii::t('common', 'Client Catalog');
             var pmPlacesNum = $('#PM_places_num').val();
             var pmSku = $('#PM_sku').val();
             var pmType = $('#PM_type').val();
+            var pmComment = $('#PM_comment').val();
             if(pmSku !== ''){
                 $.post(
                     '/catalog/save-item',
@@ -252,7 +251,8 @@ $this->title = Yii::t('common', 'Client Catalog');
                         placement: pmPlacement,
                         places_num: pmPlacesNum,
                         sku: pmSku,
-                        type: pmType
+                        type: pmType,
+                        comment: pmComment
                     },
                     function(data){
                         if(data*1 > 0){
@@ -277,7 +277,7 @@ $this->title = Yii::t('common', 'Client Catalog');
     // удаление элемента из колонки каталога клиента
     function removeItem(itm) {
         $('#sortable3 li').each(function () {
-            if($(this).data('itm')*1 === itm*1){
+            if($(this).data('itm') === itm){
                 $(this).remove();
                 return false;
             }
@@ -317,6 +317,10 @@ $this->title = Yii::t('common', 'Client Catalog');
                     <div class="form-group">
                         <label for="PM_places_num">Places number:</label>
                         <input type="text" name="pm_places_num" id="PM_places_num" class="form-control">
+                    </div>
+                    <div class="form-group" id="PM_comment_area">
+                        <label for="PM_comment">Comment:</label>
+                        <textarea name="pm_comment" id="PM_comment" class="form-control" cols="30" rows="5"></textarea>
                     </div>
                 </form>
             </div>
