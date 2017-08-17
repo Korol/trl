@@ -315,7 +315,7 @@ $this->title = Yii::t('common', 'Client Catalog');
                         <input type="text" name="pm_placement" id="PM_placement" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="PM_places_num">Places num:</label>
+                        <label for="PM_places_num">Places number:</label>
                         <input type="text" name="pm_places_num" id="PM_places_num" class="form-control">
                     </div>
                 </form>
