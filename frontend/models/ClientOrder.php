@@ -45,4 +45,9 @@ class ClientOrder extends \yii\db\ActiveRecord
             'updated' => 'Updated',
         ];
     }
+
+    public function getClientOrderItem()
+    {
+        return $this->hasMany(ClientOrderItem::className(), ['order_id' => 'id']);
+    }
 }

@@ -55,4 +55,9 @@ class ClientOrderItem extends \yii\db\ActiveRecord
             'places_num' => 'Places number',
         ];
     }
+
+    public function getClientOrder()
+    {
+        return $this->hasOne(ClientOrder::className(), ['id' => 'order_id']);
+    }
 }
