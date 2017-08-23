@@ -3,7 +3,7 @@
 namespace frontend\models;
 
 use Yii;
-use frontend\models\CatalogItemOld2;
+use frontend\models\CatalogItem;
 
 /**
  * This is the model class for table "client_catalog_item".
@@ -47,6 +47,6 @@ class ClientCatalogItem extends \yii\db\ActiveRecord
 
     public function getCatalogItem()
     {
-        return $this->hasOne(CatalogItemOld2::className(), ['sku' => 'catalog_item_sku']);
+        return $this->hasOne(CatalogItem::className(), ['sku' => 'catalog_item_sku']);
     }
 }
