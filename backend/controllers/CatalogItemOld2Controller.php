@@ -3,8 +3,8 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\CatalogItem;
-use backend\models\CatalogItemSearch;
+use backend\models\CatalogItemOld2;
+use backend\models\CatalogItemOld2Search;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -12,7 +12,7 @@ use yii\filters\VerbFilter;
 /**
  * CatalogItemController implements the CRUD actions for CatalogItem model.
  */
-class CatalogItemController extends Controller
+class CatalogItemOld2Controller extends Controller
 {
     /**
      * @inheritdoc
@@ -35,7 +35,7 @@ class CatalogItemController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new CatalogItemSearch();
+        $searchModel = new CatalogItemOld2Search();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -63,8 +63,7 @@ class CatalogItemController extends Controller
      */
     public function actionCreate()
     {
-        return $this->redirect(['index']);
-        $model = new CatalogItem();
+        $model = new CatalogItemOld2();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -83,7 +82,6 @@ class CatalogItemController extends Controller
      */
     public function actionUpdate($id)
     {
-        return $this->redirect(['view', 'id' => $id]);
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -103,7 +101,6 @@ class CatalogItemController extends Controller
      */
     public function actionDelete($id)
     {
-        return $this->redirect(['view', 'id' => $id]);
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -113,12 +110,12 @@ class CatalogItemController extends Controller
      * Finds the CatalogItem model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return CatalogItem the loaded model
+     * @return CatalogItemOld2 the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = CatalogItem::findOne($id)) !== null) {
+        if (($model = CatalogItemOld2::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

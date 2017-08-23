@@ -139,11 +139,15 @@ class CatalogController extends Controller
                     $return = [
                         'name' => $item->name,
                         'image' => $item->image,
+                        'image_text' => $item->image_text,
                         'sku' => $item->sku,
                         'specification' => $item->specification,
                         'placement' => $item->placement,
-                        'places_num' => $item->places_num,
+                        'num_rows' => $item->num_rows,
+                        'num_seats' => $item->num_seats,
                         'comment' => $item->comment,
+                        'favorite' => $item->favorite,
+                        'total_num_seats' => ($item->num_seats * $item->num_rows),
                     ];
                 }
             }
@@ -161,16 +165,24 @@ class CatalogController extends Controller
             $sku = Yii::$app->request->post('sku', '');
             $specification = Yii::$app->request->post('specification', '');
             $placement = Yii::$app->request->post('placement', '');
-            $places_num = Yii::$app->request->post('places_num', '');
+            $num_rows = Yii::$app->request->post('num_rows', 0);
+            $num_seats = Yii::$app->request->post('num_seats', 0);
             $comment = Yii::$app->request->post('comment', '');
             $type = Yii::$app->request->post('type', '');
+            $image_text = Yii::$app->request->post('image_text', '');
+            $favorite = Yii::$app->request->post('favorite', '');
+            $total_num_seats = ($num_seats * $num_rows);
             if(!empty($sku) && ($type === 'catalog')){
                 // продукт из локального каталога
                 $update = [
                     'specification' => $specification,
                     'placement' => $placement,
-                    'places_num' => $places_num,
+                    'num_rows' => $num_rows,
+                    'num_seats' => $num_seats,
                     'comment' => $comment,
+                    'image_text' => $image_text,
+                    'favorite' => $favorite,
+                    'total_num_seats' => $total_num_seats,
                 ];
                 $where = [
                     'sku' => $sku,
@@ -190,10 +202,15 @@ class CatalogController extends Controller
                     $item->name = $name;
                     $item->sku = $sku;
                     $item->image = $image;
+                    $item->image_text = $image_text;
                     $item->specification = $specification;
                     $item->placement = $placement;
-                    $item->places_num = $places_num;
+                    $item->num_rows = $num_rows;
+                    $item->num_seats = $num_seats;
                     $item->comment = $comment;
+                    $item->favorite = $favorite;
+                    $item->total_num_seats = $total_num_seats;
+
                     $item->save();
                 }
                 else{
@@ -203,8 +220,12 @@ class CatalogController extends Controller
                         'sku' => $sku,
                         'specification' => $specification,
                         'placement' => $placement,
-                        'places_num' => $places_num,
+                        'num_rows' => $num_rows,
+                        'num_seats' => $num_seats,
                         'comment' => $comment,
+                        'image_text' => $image_text,
+                        'favorite' => $favorite,
+                        'total_num_seats' => $total_num_seats,
                     ];
                     $where = [
                         'image' => $image,
@@ -235,8 +256,12 @@ class CatalogController extends Controller
                         'sku' => $item->sku,
                         'specification' => $item->specification,
                         'placement' => $item->placement,
-                        'places_num' => $item->places_num,
+                        'num_rows' => $item->num_rows,
+                        'num_seats' => $item->num_seats,
                         'comment' => $item->comment,
+                        'favorite' => $item->favorite,
+                        'image_text' => $item->image_text,
+                        'total_num_seats' => ($item->num_seats * $item->num_rows),
                     ];
                 }
             }

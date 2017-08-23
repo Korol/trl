@@ -2,15 +2,15 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use backend\models\CatalogItem;
+use backend\models\CatalogItemOld2;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\models\CatalogItemSearch */
+/* @var $searchModel backend\models\CatalogItemOld2Search */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Catalog Items');
+$this->title = 'Catalog Items';
 $this->params['breadcrumbs'][] = $this->title;
-$catalog = CatalogItem::getCatalogList();
+$catalog = CatalogItemOld2::getCatalogList();
 ?>
 <div class="catalog-item-index">
 
@@ -18,7 +18,7 @@ $catalog = CatalogItem::getCatalogList();
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-<!--        --><?//= Html::a(Yii::t('app', 'Create Catalog Item'), ['create'], ['class' => 'btn btn-success']) ?>
+<!--        --><?//= Html::a('Create Catalog Item', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -35,7 +35,6 @@ $catalog = CatalogItem::getCatalogList();
                     return $data->catalog->title;
                 }
             ],
-            'sku',
             'name',
             [
                 'attribute' => 'image',
@@ -49,14 +48,10 @@ $catalog = CatalogItem::getCatalogList();
                     return $output;
                 }
             ],
-//            'image_text',
-            // 'favorite',
-            // 'num_rows',
-            // 'num_seats',
-            // 'total_num_seats',
-            // 'specification',
+            'sku',
+            // 'specification:ntext',
             // 'placement',
-            // 'comment:ntext',
+            // 'places_num',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

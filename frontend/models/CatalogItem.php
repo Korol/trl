@@ -3,19 +3,22 @@
 namespace frontend\models;
 
 use Yii;
-use frontend\models\Catalog;
 
 /**
  * This is the model class for table "catalog_item".
  *
  * @property integer $id
  * @property integer $catalog_id
+ * @property string $sku
  * @property string $name
  * @property string $image
- * @property string $sku
+ * @property string $image_text
+ * @property string $favorite
+ * @property integer $num_rows
+ * @property integer $num_seats
+ * @property integer $total_num_seats
  * @property string $specification
  * @property string $placement
- * @property integer $places_num
  * @property string $comment
  */
 class CatalogItem extends \yii\db\ActiveRecord
@@ -34,9 +37,9 @@ class CatalogItem extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['catalog_id', 'places_num'], 'integer'],
-            [['specification', 'comment'], 'string'],
-            [['name', 'image', 'sku', 'placement'], 'string', 'max' => 255],
+            [['num_rows', 'num_seats', 'total_num_seats', 'catalog_id'], 'integer'],
+            [['comment'], 'string'],
+            [['sku', 'name', 'image', 'image_text', 'favorite', 'specification', 'placement'], 'string', 'max' => 255],
         ];
     }
 
@@ -46,15 +49,19 @@ class CatalogItem extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'catalog_id' => 'Catalog ID',
-            'name' => 'Name',
-            'image' => 'Image',
-            'sku' => 'Sku',
-            'specification' => 'Specification',
-            'placement' => 'Placement',
-            'places_num' => 'Places Num',
-            'comment' => 'Comment',
+            'id' => Yii::t('app', 'ID'),
+            'catalog_id' => Yii::t('app', 'Catalog ID'),
+            'sku' => Yii::t('app', 'Sku'),
+            'name' => Yii::t('app', 'Name'),
+            'image' => Yii::t('app', 'Image'),
+            'image_text' => Yii::t('app', 'Image Text'),
+            'favorite' => Yii::t('app', 'Favorite'),
+            'num_rows' => Yii::t('app', 'Num Rows'),
+            'num_seats' => Yii::t('app', 'Num Seats'),
+            'total_num_seats' => Yii::t('app', 'Total Num Seats'),
+            'specification' => Yii::t('app', 'Specification'),
+            'placement' => Yii::t('app', 'Placement'),
+            'comment' => Yii::t('app', 'Comment'),
         ];
     }
 

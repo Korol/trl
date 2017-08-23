@@ -4,10 +4,10 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\CatalogItem */
+/* @var $model backend\models\CatalogItemOld2 */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Catalog Items'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Catalog Items', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $catalog = $model->catalog;
 ?>
@@ -16,11 +16,11 @@ $catalog = $model->catalog;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
+        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                'confirm' => 'Are you sure you want to delete this item?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -30,14 +30,14 @@ $catalog = $model->catalog;
         'model' => $model,
         'attributes' => [
             'id',
+            'name',
+            'sku',
             [
                 'attribute' => 'catalog_id',
                 'value' => $catalog->title,
             ],
-            'sku',
-            'name',
             [
-                'attribute' => 'image',
+                'attribute' => 'filimagees',
                 'label' => 'Image',
                 'format' => 'raw',
                 'value' => function($data) {
@@ -47,14 +47,9 @@ $catalog = $model->catalog;
                     return $output;
                 }
             ],
-            'image_text',
-            'favorite',
-            'num_rows',
-            'num_seats',
-            'total_num_seats',
-            'specification',
+            'specification:ntext',
             'placement',
-            'comment:ntext',
+            'places_num',
         ],
     ]) ?>
 

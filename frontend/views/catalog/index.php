@@ -214,8 +214,12 @@ $this->title = Yii::t('common', 'Client Catalog');
                         $('#PM_sku').val(data.sku);
                         $('#PM_specification').val(data.specification);
                         $('#PM_placement').val(data.placement);
-                        $('#PM_places_num').val(data.places_num);
                         $('#PM_comment').val(data.comment);
+                        $('#PM_num_rows').val(data.num_rows); // new fields
+                        $('#PM_num_seats').val(data.num_seats);
+                        $('#PM_favorite').val(data.favorite);
+                        $('#PM_total_num_seats').val(data.total_num_seats);
+                        $('#PM_image_text').val(data.image_text);
                         if(data.image !== ''){
                             $('#PM_image').removeClass('hide');
                             $('#PM_image').addClass('show');
@@ -239,20 +243,26 @@ $this->title = Yii::t('common', 'Client Catalog');
         $('#PM_save').click(function () {
             var pmSpecification = $('#PM_specification').val();
             var pmPlacement = $('#PM_placement').val();
-            var pmPlacesNum = $('#PM_places_num').val();
             var pmSku = $('#PM_sku').val();
             var pmType = $('#PM_type').val();
             var pmComment = $('#PM_comment').val();
+            var pmImageText = $('#PM_image_text').val(); // new fields
+            var pmFavorite = $('#PM_favorite').val();
+            var pmNumRows = $('#PM_num_rows').val();
+            var pmNumSeats = $('#PM_num_seats').val();
             if(pmSku !== ''){
                 $.post(
                     '/catalog/save-item',
                     {
                         specification: pmSpecification,
                         placement: pmPlacement,
-                        places_num: pmPlacesNum,
                         sku: pmSku,
                         type: pmType,
-                        comment: pmComment
+                        comment: pmComment,
+                        num_rows: pmNumRows, // new fields
+                        num_seats: pmNumSeats,
+                        image_text: pmImageText,
+                        favorite: pmFavorite
                     },
                     function(data){
                         if(data*1 > 0){
@@ -299,12 +309,32 @@ $this->title = Yii::t('common', 'Client Catalog');
                 <form action="/catalog/save-item-info" id="product_card_form" name="product_card_form">
                     <input type="hidden" name="pm_type" id="PM_type" value="catalog">
                     <div class="form-group">
+                        <label for="PM_sku">SKU:</label>
+                        <input type="text" name="pm_sku" id="PM_sku" class="form-control" readonly>
+                    </div>
+                    <div class="form-group">
                         <label for="PM_name">Name:</label>
                         <input type="text" name="pm_name" id="PM_name" class="form-control" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="PM_sku">SKU:</label>
-                        <input type="text" name="pm_sku" id="PM_sku" class="form-control" readonly>
+                        <label for="PM_image_text">Image text:</label>
+                        <input type="text" name="pm_image_text" id="PM_image_text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="PM_favorite">Favorite:</label>
+                        <input type="text" name="pm_favorite" id="PM_favorite" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="PM_num_rows">Number of rows:</label>
+                        <input type="text" name="pm_num_rows" id="PM_num_rows" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="PM_num_seats">Number of seats:</label>
+                        <input type="text" name="pm_num_seats" id="PM_num_seats" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="PM_total_num_seats">Total number of seats:</label>
+                        <input type="text" name="pm_total_num_seats" id="PM_total_num_seats" class="form-control" readonly>
                     </div>
                     <div class="form-group">
                         <label for="PM_specification">Specification:</label>
@@ -313,10 +343,6 @@ $this->title = Yii::t('common', 'Client Catalog');
                     <div class="form-group">
                         <label for="PM_placement">Placement:</label>
                         <input type="text" name="pm_placement" id="PM_placement" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="PM_places_num">Places number:</label>
-                        <input type="text" name="pm_places_num" id="PM_places_num" class="form-control">
                     </div>
                     <div class="form-group" id="PM_comment_area">
                         <label for="PM_comment">Comment:</label>

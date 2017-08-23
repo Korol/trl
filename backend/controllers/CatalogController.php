@@ -157,6 +157,7 @@ class CatalogController extends Controller
         }
     }
 
+    // TODO: структура таблицы изменилась, нужно переделать, когда будет предоставлен тестовый файл для импорта товаров
     public function importIntoDB($catalog_id, $file)
     {
         /**
@@ -195,13 +196,19 @@ class CatalogController extends Controller
             if(!empty($objWorksheet->getCellByColumnAndRow(0, $row)->getValue())) {
                 $model = new CatalogItem();
                 $model->catalog_id = $catalog_id;
-                $model->name = $objWorksheet->getCellByColumnAndRow(0, $row)->getValue();
-//                $model->image = $this->cleanImageLink($objWorksheet->getCellByColumnAndRow(1, $row)->getValue());
-                $model->image = $this->saveImage($objWorksheet->getCellByColumnAndRow(1, $row)->getValue());
-                $model->sku = $objWorksheet->getCellByColumnAndRow(2, $row)->getValue();
-                $model->specification = $objWorksheet->getCellByColumnAndRow(3, $row)->getValue();
-                $model->placement = $objWorksheet->getCellByColumnAndRow(4, $row)->getValue();
-                $model->places_num = $objWorksheet->getCellByColumnAndRow(5, $row)->getValue();
+                $model->sku = $objWorksheet->getCellByColumnAndRow(0, $row)->getValue();
+                $model->name = $objWorksheet->getCellByColumnAndRow(1, $row)->getValue();
+//                $model->image = $this->cleanImageLink($objWorksheet->getCellByColumnAndRow(2, $row)->getValue());
+                $model->image = $this->saveImage($objWorksheet->getCellByColumnAndRow(2, $row)->getValue());
+                $model->image_text = $objWorksheet->getCellByColumnAndRow(3, $row)->getValue();
+                $model->favorite = $objWorksheet->getCellByColumnAndRow(4, $row)->getValue();
+                $model->num_rows = $objWorksheet->getCellByColumnAndRow(5, $row)->getValue();
+                $model->num_seats = $objWorksheet->getCellByColumnAndRow(6, $row)->getValue();
+//                $model->total_num_seats = ($model->num_seats * $model->num_rows); // вычисляем произведение (ряды * сиденья)
+                $model->total_num_seats = $objWorksheet->getCellByColumnAndRow(7, $row)->getValue(); // получаем значение из столбца таблицы файла импорта
+                $model->specification = $objWorksheet->getCellByColumnAndRow(8, $row)->getValue();
+                $model->placement = $objWorksheet->getCellByColumnAndRow(9, $row)->getValue();
+                $model->comment = $objWorksheet->getCellByColumnAndRow(10, $row)->getValue();
                 $model->save();
                 $importCounter++;
             }
