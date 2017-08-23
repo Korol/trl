@@ -406,7 +406,7 @@ class OrderController extends Controller
             ->setCellValue('B3', 'NAME')
             ->setCellValue('C3', 'SKU')
             ->setCellValue('D3', 'PLACEMENT')
-            ->setCellValue('E3', 'PLACES NUMBER')
+            ->setCellValue('E3', 'TOTAL NUMBER OF PLACES')
             ->setCellValue('F3', 'COMMENT');
         // делаем bold и фон для шапки таблицы
         $objPHPExcel->getActiveSheet()->getStyle('A1:F1')->getFont()->setBold(true);
@@ -437,7 +437,7 @@ class OrderController extends Controller
                     ->setCellValue('B' . $i, $item_info['name'])
                     ->setCellValue('C' . $i, $item_info['sku'])
                     ->setCellValue('D' . $i, $item_info['placement'])
-                    ->setCellValue('E' . $i, $item_info['places_num'])
+                    ->setCellValue('E' . $i, ($item_info['num_seats'] * $item_info['num_rows']))
                     ->setCellValue('F' . $i, $item_info['comment']);
                 $i++;
             }

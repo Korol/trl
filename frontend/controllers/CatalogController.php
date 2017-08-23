@@ -107,7 +107,7 @@ class CatalogController extends Controller
                     ]
                 )
                 ->all();
-            $all_rows_keys = (!empty($all_rows)) ? ArrayHelper::getColumn($all_rows, 'catalog_item_id') : [];
+            $all_rows_keys = (!empty($all_rows)) ? ArrayHelper::getColumn($all_rows, 'catalog_item_sku') : [];
             // сохраняем новые записи
             foreach ($items_uniq as $item){
                 // если такая запись уже есть – пропускаем

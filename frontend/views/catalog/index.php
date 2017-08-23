@@ -309,43 +309,43 @@ $this->title = Yii::t('common', 'Client Catalog');
                 <form action="/catalog/save-item-info" id="product_card_form" name="product_card_form">
                     <input type="hidden" name="pm_type" id="PM_type" value="catalog">
                     <div class="form-group">
-                        <label for="PM_sku">SKU:</label>
+                        <label for="PM_sku"><?= Yii::t('common', 'SKU'); ?>:</label>
                         <input type="text" name="pm_sku" id="PM_sku" class="form-control" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="PM_name">Name:</label>
+                        <label for="PM_name"><?= Yii::t('common', 'Name'); ?>:</label>
                         <input type="text" name="pm_name" id="PM_name" class="form-control" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="PM_image_text">Image text:</label>
+                        <label for="PM_image_text"><?= Yii::t('common', 'Image text'); ?>:</label>
                         <input type="text" name="pm_image_text" id="PM_image_text" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="PM_favorite">Favorite:</label>
+                        <label for="PM_favorite"><?= Yii::t('common', 'Favorite'); ?>:</label>
                         <input type="text" name="pm_favorite" id="PM_favorite" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="PM_num_rows">Number of rows:</label>
+                        <label for="PM_num_rows"><?= Yii::t('common', 'Number of rows'); ?>:</label>
                         <input type="text" name="pm_num_rows" id="PM_num_rows" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="PM_num_seats">Number of seats:</label>
+                        <label for="PM_num_seats"><?= Yii::t('common', 'Number of seats'); ?>:</label>
                         <input type="text" name="pm_num_seats" id="PM_num_seats" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="PM_total_num_seats">Total number of seats:</label>
+                        <label for="PM_total_num_seats"><?= Yii::t('common', 'Total number of seats'); ?>:</label>
                         <input type="text" name="pm_total_num_seats" id="PM_total_num_seats" class="form-control" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="PM_specification">Specification:</label>
+                        <label for="PM_specification"><?= Yii::t('common', 'Specification'); ?>:</label>
                         <input type="text" name="pm_specification" id="PM_specification" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="PM_placement">Placement:</label>
+                        <label for="PM_placement"><?= Yii::t('common', 'Placement'); ?>:</label>
                         <input type="text" name="pm_placement" id="PM_placement" class="form-control">
                     </div>
                     <div class="form-group" id="PM_comment_area">
-                        <label for="PM_comment">Comment:</label>
+                        <label for="PM_comment"><?= Yii::t('common', 'Comment'); ?>:</label>
                         <textarea name="pm_comment" id="PM_comment" class="form-control" cols="30" rows="5"></textarea>
                     </div>
                 </form>
